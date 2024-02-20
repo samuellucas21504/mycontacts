@@ -14,7 +14,7 @@ export default {
     danger: {
       light: '#F97171',
       main: '#FC5050',
-      DARK: '#F63131',
+      dark: '#F63131',
     },
   },
 };
