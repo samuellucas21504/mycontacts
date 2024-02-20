@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import {
   Container, InputSearchContainer, Header, ListContainer, Card,
 } from './styles';
@@ -5,6 +6,7 @@ import {
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+import RouteKeys from '../../RouteKeys';
 
 export default function Home() {
   return (
@@ -15,7 +17,7 @@ export default function Home() {
 
       <Header>
         <strong>3 contatos</strong>
-        <a href="/" aria-label="Novo contato">Novo Contato</a>
+        <Link to={RouteKeys.NEW} aria-label="Novo contato">Novo Contato</Link>
       </Header>
 
       <ListContainer>
@@ -39,54 +41,15 @@ export default function Home() {
         </div>
 
         <div className="actions">
-          <a href="/" alt="Edit">
+          <Link to={RouteKeys.EDIT} alt="Edit">
             <img src={edit} alt="Edit" />
-          </a>
+          </Link>
           <button type="button">
             <img src={trash} alt="Delete" />
           </button>
         </div>
       </Card>
 
-      <Card>
-        <div className="info">
-          <div className="contact-name">
-            <strong>Samuel Lucas</strong>
-            <small>instagram</small>
-          </div>
-          <span>samuellucasrdg@gmail.com</span>
-          <span>(34) 996978987</span>
-        </div>
-
-        <div className="actions">
-          <a href="/" alt="Edit">
-            <img src={edit} alt="Edit" />
-          </a>
-          <button type="button">
-            <img src={trash} alt="Delete" />
-          </button>
-        </div>
-      </Card>
-
-      <Card>
-        <div className="info">
-          <div className="contact-name">
-            <strong>Samuel Lucas</strong>
-            <small>instagram</small>
-          </div>
-          <span>samuellucasrdg@gmail.com</span>
-          <span>(34) 996978987</span>
-        </div>
-
-        <div className="actions">
-          <a href="/" alt="Edit">
-            <img src={edit} alt="Edit" />
-          </a>
-          <button type="button">
-            <img src={trash} alt="Delete" />
-          </button>
-        </div>
-      </Card>
     </Container>
   );
 }
