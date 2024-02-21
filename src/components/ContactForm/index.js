@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
-
 import { useState } from 'react';
+
+import isEmailValid from '../../utils/isEmailValid';
+
 import Button from '../Button';
 import FormGroup from '../FormGroup';
 import Input from '../Input';
@@ -10,16 +12,62 @@ import { Form, ButtonContainer } from './styles';
 export default function ContactForm({ buttonLabel }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [cellphone, setCellphone] = useState('');
+  const [phone, setPhone] = useState('');
   const [category, setCategory] = useState('');
+  const [errors, setErrors] = useState([]);
+
+  function handleNameChange(event) {
+    setName(event.target.value);
+
+    if (!event.target.value) {
+      setErrors((prev) => [
+        ...prev, { field: 'name', message: 'Nome é obrigatório' },
+      ]);
+    } else {
+      setErrors((prev) => prev.filter((error) => error.field !== 'name'));
+    }
+  }
+
+  function handleEmailChange(e) {
+    setEmail(e.target.value);
+
+    if (e.target.value && !isEmailValid(e.target.value)) {
+      const errorAlreadyExists = errors.find((error) => error.field === 'email');
+      if (errorAlreadyExists) {
+        return;
+      }
+
+      setErrors((prev) => [
+        ...prev, { field: 'email', message: 'Email não é válido' },
+      ]);
+    } else {
+      setErrors((prev) => prev.filter((error) => error.field !== 'email'));
+    }
+  }
+
+  function handlePhoneChange(e) {
+    setPhone(e.target.value);
+  }
+
+  function handleCategoryChange(e) {
+    setCategory(e.target.value);
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    console.log({
+      name, email, phone, category,
+    });
+  }
 
   return (
-    <Form>
+    <Form onSubmit={(e) => handleSubmit(e)}>
       <FormGroup>
         <Input
           value={name}
           placeholder="Nome"
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) => handleNameChange(e)}
         />
       </FormGroup>
 
@@ -27,22 +75,22 @@ export default function ContactForm({ buttonLabel }) {
         <Input
           value={email}
           placeholder="Email"
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) => handleEmailChange(e)}
         />
       </FormGroup>
 
       <FormGroup>
         <Input
-          value={cellphone}
+          value={phone}
           placeholder="Telefone"
-          onChange={(e) => setCellphone(e.target.value)}
+          onChange={(e) => handlePhoneChange(e)}
         />
       </FormGroup>
 
       <FormGroup>
         <Select
           value={category}
-          onChange={(e) => setCategory(e.target.value)}
+          onChange={(e) => handleCategoryChange(e)}
         >
           <option value="">Categoria</option>
           <option value="instagram">Instagram</option>
