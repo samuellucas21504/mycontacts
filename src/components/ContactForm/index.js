@@ -49,9 +49,9 @@ export default function ContactForm({ buttonLabel }) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    console.log({
-      name, email, phone, category,
-    });
+    // console.log({
+    //   name, email, phone, category,
+    // });
   }
 
   return (
@@ -71,6 +71,7 @@ export default function ContactForm({ buttonLabel }) {
           placeholder="Email"
           onChange={(e) => handleEmailChange(e)}
           error={getErrorMessageByFieldName('email')}
+          type="email"
         />
       </FormGroup>
 
@@ -79,6 +80,7 @@ export default function ContactForm({ buttonLabel }) {
           value={phone}
           placeholder="Telefone"
           onChange={(e) => handlePhoneChange(e)}
+          type="cellphone"
         />
       </FormGroup>
 

@@ -10,6 +10,7 @@ export default styled.select`
   outline: none;
   padding: 0 16px;
   font-size: 16px;
+  appearance: none;
 
   transition: border-color 0.2s ease-in-out;
 
