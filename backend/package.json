@@ -1,0 +1,22 @@
+{
+  "name": "be",
+  "version": "1.0.0",
+  "description": "API to store contacts",
+  "main": "src/index.js",
+  "author": "Samuel Lucas",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "pg": "^8.11.3"
+  },
+  "devDependencies": {
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.25.2",
+    "nodemon": "^3.0.3"
+  },
+  "scripts": {
+    "dev": "nodemon src/index.js"
+  }
+}
