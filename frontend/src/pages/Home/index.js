@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   Container, InputSearchContainer, Header, ListHeader, Card,
 } from './styles';
@@ -16,8 +16,12 @@ export default function Home() {
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredContacts = contacts.filter((contact) => (
-    contact.name.toLowerCase().startsWith(searchTerm.toLowerCase())));
+  const filteredContacts = useMemo(
+    () => contacts.filter((contact) => (
+      contact.name.toLowerCase().startsWith(searchTerm.toLowerCase())
+    )),
+    [contacts, searchTerm],
+  );
 
   useEffect(() => {
     fetch(`${contactsIndexUrl}?orderBy=${orderBy}`)
