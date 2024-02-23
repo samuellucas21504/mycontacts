@@ -7,14 +7,19 @@ import {
 import arrow from '../../assets/images/icons/arrow.svg';
 import edit from '../../assets/images/icons/edit.svg';
 import trash from '../../assets/images/icons/trash.svg';
+
 import RouteKeys from '../../RouteKeys';
 import formatPhone from '../../utils/formatPhone';
+import delay from '../../utils/delay';
+
+import Loader from '../../components/Loader';
 
 export default function Home() {
   const contactsIndexUrl = 'http://localhost:3001/contacts';
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
+  const [isLoading, setIsLoading] = useState(true);
 
   const filteredContacts = useMemo(
     () => contacts.filter((contact) => (
@@ -23,7 +28,10 @@ export default function Home() {
     [contacts, searchTerm],
   );
 
-  useEffect(() => {
+  useEffect(async () => {
+    setIsLoading(true);
+    await delay(200);
+
     fetch(`${contactsIndexUrl}?orderBy=${orderBy}`)
       .then(async (response) => {
         const json = await response.json();
@@ -31,6 +39,9 @@ export default function Home() {
       })
       .catch((error) => {
         console.log('error', error);
+      })
+      .finally(() => {
+        setIsLoading(false);
       });
   }, [orderBy]);
 
@@ -44,6 +55,7 @@ export default function Home() {
 
   return (
     <Container>
+      <Loader isLoading={isLoading} />
       <InputSearchContainer>
         <input
           type="text"
