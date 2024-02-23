@@ -51,10 +51,9 @@ export const Header = styled.header`
   }
 `;
 
-export const ListContainer = styled.div`
+export const ListHeader = styled.header`
   margin-top: 24px;
 
-  header {
     margin-bottom: 8px;
 
     button {
@@ -68,7 +67,11 @@ export const ListContainer = styled.div`
       font-weight: bold;
       color: ${({ theme }) => theme.colors.primary.main};
     }
-  }
+
+    img {
+      transform: rotate(${({ orderBy }) => (orderBy.toLowerCase() === 'asc' ? '180deg' : '0deg')});
+      transition: transform 0.1s ease-in-out;
+    }
   }
 `;
 

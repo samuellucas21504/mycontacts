@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import { useEffect, useState } from 'react';
 import {
-  Container, InputSearchContainer, Header, ListContainer, Card,
+  Container, InputSearchContainer, Header, ListHeader, Card,
 } from './styles';
 
 import arrow from '../../assets/images/icons/arrow.svg';
@@ -11,10 +11,12 @@ import RouteKeys from '../../RouteKeys';
 import formatPhone from '../../utils/formatPhone';
 
 export default function Home() {
+  const contactsIndexUrl = 'http://localhost:3001/contacts';
   const [contacts, setContacts] = useState([]);
+  const [orderBy, setOrderBy] = useState('asc');
 
   useEffect(() => {
-    fetch('http://localhost:3001/contacts')
+    fetch(`${contactsIndexUrl}?orderBy=${orderBy}`)
       .then(async (response) => {
         const json = await response.json();
         setContacts(json);
@@ -22,8 +24,11 @@ export default function Home() {
       .catch((error) => {
         console.log('error', error);
       });
-  }, []);
-  console.log(contacts);
+  }, [orderBy]);
+
+  function handleToggleOrderBy() {
+    setOrderBy((prevState) => (prevState === 'asc' ? 'desc' : 'asc'));
+  }
 
   return (
     <Container>
@@ -39,15 +44,12 @@ export default function Home() {
         <Link to={RouteKeys.NEW} aria-label="Novo contato">Novo Contato</Link>
       </Header>
 
-      <ListContainer>
-        <header>
-          <button type="button">
-            <span>Nome</span>
-            <img src={arrow} alt="Arrow" />
-          </button>
-        </header>
-
-      </ListContainer>
+      <ListHeader orderBy={orderBy}>
+        <button type="button" onClick={handleToggleOrderBy}>
+          <span>Nome</span>
+          <img src={arrow} alt="Arrow" />
+        </button>
+      </ListHeader>
 
       {contacts.map((contact) => (
         <Card key={contact.id}>
