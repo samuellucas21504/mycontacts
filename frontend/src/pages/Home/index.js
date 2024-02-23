@@ -10,12 +10,11 @@ import trash from '../../assets/images/icons/trash.svg';
 
 import RouteKeys from '../../RouteKeys';
 import formatPhone from '../../utils/formatPhone';
-import delay from '../../utils/delay';
 
 import Loader from '../../components/Loader';
+import ContactsService from '../../services/ContactsService';
 
 export default function Home() {
-  const contactsIndexUrl = 'http://localhost:3001/contacts';
   const [contacts, setContacts] = useState([]);
   const [orderBy, setOrderBy] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
@@ -28,21 +27,22 @@ export default function Home() {
     [contacts, searchTerm],
   );
 
-  useEffect(async () => {
-    setIsLoading(true);
-    await delay(200);
+  useEffect(() => {
+    async function loadContacts() {
+      try {
+        setIsLoading(true);
 
-    fetch(`${contactsIndexUrl}?orderBy=${orderBy}`)
-      .then(async (response) => {
-        const json = await response.json();
-        setContacts(json);
-      })
-      .catch((error) => {
-        console.log('error', error);
-      })
-      .finally(() => {
+        const contactsList = await ContactsService.getAll(orderBy);
+
+        setContacts(contactsList);
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoading(false);
-      });
+      }
+    }
+
+    loadContacts();
   }, [orderBy]);
 
   function handleToggleOrderBy() {
