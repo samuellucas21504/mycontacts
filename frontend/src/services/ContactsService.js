@@ -5,7 +5,7 @@ class ContactsService {
     this.httpClient = new HttpClient('http://localhost:3001');
   }
 
-  async getAll(orderBy) {
+  async getAll(orderBy = 'asc') {
     return this.httpClient.get(`/contacts?orderBy=${orderBy}`);
   }
 }
